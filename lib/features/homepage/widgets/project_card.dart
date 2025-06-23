@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_down_button/pull_down_button.dart';
 
 class ProjectCard extends StatelessWidget {
   final String title;
@@ -6,13 +8,22 @@ class ProjectCard extends StatelessWidget {
   final String createdDate;
   final List<String> members;
   final VoidCallback onTap;
+  final bool isPinned;
+  final VoidCallback onPinToggle;
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
 
   const ProjectCard({
+    super.key,
     required this.title,
     required this.description,
     required this.createdDate,
     required this.members,
     required this.onTap,
+    required this.isPinned,
+    required this.onPinToggle,
+    required this.onEdit,
+    required this.onDelete,
   });
 
   @override
@@ -20,17 +31,17 @@ class ProjectCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
+        color: Colors.white,
         elevation: 2,
-        margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Top row: title and icons
               Row(
                 children: [
+                  // Title
                   Expanded(
                     child: Text(
                       title,
@@ -40,9 +51,44 @@ class ProjectCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Icon(Icons.push_pin_outlined, color: Colors.amber),
-                  const SizedBox(width: 8),
-                  const Icon(Icons.more_vert),
+                  IconButton(
+                    icon: Icon(
+                      isPinned ? Icons.star : Icons.star_border,
+                      color: Colors.amber,
+                    ),
+                    onPressed: onPinToggle,
+                  ),
+
+                  PullDownButton(
+                    buttonBuilder: (context, showMenu) {
+                      return IconButton(
+                        icon: const Icon(Icons.more_horiz),
+                        onPressed: showMenu,
+                      );
+                    },
+                    itemBuilder:
+                        (context) => [
+                          PullDownMenuItem(
+                            title: 'Modifier',
+                            icon: CupertinoIcons.pencil,
+                            onTap: onEdit,
+                          ),
+                          PullDownMenuItem(
+                            title: isPinned ? 'Désépingler' : 'Épingler',
+                            icon:
+                                isPinned
+                                    ? CupertinoIcons.star_fill
+                                    : CupertinoIcons.star,
+                            onTap: onPinToggle,
+                          ),
+                          PullDownMenuItem(
+                            title: 'Supprimer',
+                            icon: CupertinoIcons.delete,
+                            isDestructive: true,
+                            onTap: onDelete,
+                          ),
+                        ],
+                  ),
                 ],
               ),
 
@@ -70,7 +116,7 @@ class ProjectCard extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              // Members section
+              // Members
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -90,7 +136,7 @@ class ProjectCard extends StatelessWidget {
                         shape: BoxShape.circle,
                         color: Colors.grey[200],
                         boxShadow: [
-                          BoxShadow(color: Colors.black12, blurRadius: 4),
+                          const BoxShadow(color: Colors.black12, blurRadius: 4),
                         ],
                       ),
                       child: Text(

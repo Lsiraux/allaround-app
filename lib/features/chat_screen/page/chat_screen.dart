@@ -6,9 +6,9 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final myColor = Color(0xFF35B6AD); // same as your "Envoyer" button
+    final myColor = const Color(0xFF35B6AD);
     return Scaffold(
-      appBar: AppBar(title: Text(projectName)),
+      backgroundColor: const Color(0xFFf0f2f5),
       body: Column(
         children: [
           Expanded(
@@ -215,11 +215,11 @@ class ChatScreen extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const Icon(Icons.reply, size: 16, color: Colors.teal),
+            const Icon(Icons.reply, size: 16, color: Color(0xFF40B3A2)),
             const SizedBox(width: 4),
             Text(
               replyText,
-              style: const TextStyle(fontSize: 12, color: Colors.teal),
+              style: const TextStyle(fontSize: 12, color: Color(0xFF40B3A2)),
             ),
           ],
         ),

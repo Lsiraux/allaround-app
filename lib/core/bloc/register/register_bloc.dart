@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../services/auth_requests.dart';
+import '../../../services/auth_requests.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';

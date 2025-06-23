@@ -1,32 +1,32 @@
-import 'package:eip_app/core/bloc/register_bloc.dart';
+// lib/main.dart
+
+import 'package:eip_app/core/bloc/projects/projects_bloc.dart';
+import 'package:eip_app/core/bloc/register/register_bloc.dart';
+import 'package:eip_app/core/bloc/verification/verification_bloc.dart';
+import 'package:eip_app/features/auth/auth_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'features/homepage_screen.dart';
-import 'features/login_screen.dart';
-import 'features/register_screen.dart';
-
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<RegisterBloc>(create: (context) => RegisterBloc()),
+        BlocProvider<VerificationBloc>(create: (context) => VerificationBloc()),
+        BlocProvider<ProjectsBloc>(create: (context) => ProjectsBloc()),
       ],
       child: MaterialApp(
-        title: 'Portail Client',
+        title: 'AllAround',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.teal),
-        initialRoute: '/register',
-        routes: {
-          '/register': (context) => RegisterPage(),
-          '/login': (context) => LoginPage(),
-          '/dashboard': (context) => HomeScreen(),
-        },
+        home: AuthPage(),
       ),
     );
   }
